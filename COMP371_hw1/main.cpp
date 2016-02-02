@@ -75,23 +75,23 @@ GLfloat point_size = 3.0f;
 
 
 // Calculate triangle indices using the total number of vertices and the number of points in the profile curve
-std::vector<GLuint> generateIndices(GLint numVertices, GLint numvertices, int sweepType) {
+std::vector<GLuint> generateIndices(GLint numVertices, GLint numProfilePoints, int sweepType) {
 	std::vector<GLuint> indices = std::vector<GLuint>();
-	int numSweeps = (numVertices - 1) / numvertices;
-	for (GLint i = 0; i < numVertices - numvertices; ++i) {
-		if ((i + 1) % numvertices != 0) {
+	int numSweeps = (numVertices - 1) / numProfilePoints;
+	for (GLint i = 0; i < numVertices - numProfilePoints; ++i) {
+		if ((i + 1) % numProfilePoints != 0) {
 			indices.push_back(i);
-			indices.push_back(i + numvertices + 1);
-			indices.push_back(i + numvertices);
+			indices.push_back(i + numProfilePoints + 1);
+			indices.push_back(i + numProfilePoints);
 			indices.push_back(i);
-			indices.push_back(i + numvertices + 1);
+			indices.push_back(i + numProfilePoints + 1);
 			indices.push_back(i + 1);
 		}
 	}
 	// If doing a rotational sweep, connect the last profile curve with the first
 	if (sweepType) {
-		int j = numSweeps * numvertices;
-		for (int i = 0; i < numvertices - 1; i++) {				
+		int j = numSweeps * numProfilePoints;
+		for (int i = 0; i < numProfilePoints - 1; i++) {				
 			indices.push_back(j + i);
 			indices.push_back(i + 1);
 			indices.push_back(i);
@@ -385,7 +385,7 @@ GLuint loadShaders(std::string vertex_shader_path, std::string fragment_shader_p
 void calculateVertices(std::string input) {
 	
 	std::ifstream inputData(input);
-	GLint sweepType, numSpans, numvertices;
+	GLint sweepType, numSpans, numProfilePoints;
 	GLfloat data, x, y, z, x2, y2, z2;
 	vertices = std::vector< vec4>();
 	std::vector< vec3> trajectoryVectors = std::vector< vec3>();
@@ -397,11 +397,11 @@ void calculateVertices(std::string input) {
 		// For Translational Sweep
 		if (sweepType == 0)
 		{
-			inputData >> numvertices;
+			inputData >> numProfilePoints;
 
 
 			// Input the profile points into vertices vector
-			for (int i = 0; i < numvertices; i++)
+			for (int i = 0; i < numProfilePoints; i++)
 			{
 				inputData >> x >> y >> z;
 				vertices.push_back(vec4(x, y, z, 1.0f));
@@ -430,10 +430,10 @@ void calculateVertices(std::string input) {
 
 				mat4 translation = translate(mat4(1.0), trajectoryVectors[i]);
 				std::cout << "translation column 4 before second for loop: " << translation[3][0] << " " << translation[3][1] << " " << translation[3][2] << " " << translation[3][3] << std::endl;
-				for (int j = 0; j < numvertices; j++)
+				for (int j = 0; j < numProfilePoints; j++)
 				{
 
-					vertices.push_back(translation * vertices[j + i * numvertices]);
+					vertices.push_back(translation * vertices[j + i * numProfilePoints]);
 
 				}
 
@@ -441,31 +441,31 @@ void calculateVertices(std::string input) {
 		}
 		else {
 			// Rotational sweep
-			inputData >> numSpans >> numvertices;
+			inputData >> numSpans >> numProfilePoints;
 
 			GLfloat degreesPerSpan = 360.0 / (numSpans + 1);
 			GLfloat rads = DEG_TO_RAD * degreesPerSpan;
 			std::cout << std::endl << "numSpans = " << numSpans << std::endl;
-			std::cout << "numvertices = " << numvertices << std::endl;
+			std::cout << "numProfilePoints = " << numProfilePoints << std::endl;
 			std::cout << "degreesPerSpan = " << degreesPerSpan << std::endl;
 			mat4 rotateSpan = rotate(mat4(1.0f), degreesPerSpan, vec3(0.0, 0.0, 1.0));
 
 			// Input the profile points into vertices vector
-			for (int i = 0; i < numvertices; i++)
+			for (int i = 0; i < numProfilePoints; i++)
 			{
 				inputData >> x >> y >> z;
 				vertices.push_back(vec4(x, y, z, 1.0f));
 			}
 
 			for (int i = 0; i < numSpans; ++i) {
-				for (int j = 0; j < numvertices; ++j) {
-					vertices.push_back(rotateY(vertices[j + i * numvertices], rads));
+				for (int j = 0; j < numProfilePoints; ++j) {
+					vertices.push_back(rotateY(vertices[j + i * numProfilePoints], rads));
 				}
 			}
 		}
 	}
 	// Generate the vertex index array to draw triangles in proper order
-	vertexIndices = generateIndices(vertices.size(), numvertices, sweepType);
+	vertexIndices = generateIndices(vertices.size(), numProfilePoints, sweepType);
 }
 
 
