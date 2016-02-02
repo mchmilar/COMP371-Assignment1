@@ -1,0 +1,13 @@
+﻿  main.cpp
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(197): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(198): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(214): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(215): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(428): warning C4018: '<': signed/unsigned mismatch
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(446): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(447): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(389): warning C4101: 'data': unreferenced local variable
+c:\users\mark\documents\visual studio 2015\projects\comp371_hw1\comp371_hw1\main.cpp(527): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\Mark\Documents\Visual Studio 2015\Projects\COMP371_hw1\Debug\vc120.pdb'; linking object as if no debug info
+  COMP371_hw1.vcxproj -> C:\Users\Mark\Documents\Visual Studio 2015\Projects\COMP371_hw1\Debug\COMP371_hw1.exe
